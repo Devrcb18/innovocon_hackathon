@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creators - Web Weavers</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-align: center;
+            background-image: url("https://cdn.esahubble.org/archives/images/screen/heic1920e.jpg");
+            background-size: cover;
+            background-attachment: fixed;
+            color: #ffffff;
+        }
+
+      
+        nav {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav h1 {
+            color: #ffffff;
+            font-size: 28px;
+            text-shadow: 2px 2px 6px rgba(255, 255, 255, 0.4);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 5px 15px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #00bfff;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 100px 20px;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .hero h2 {
+            font-size: 42px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.4);
+        }
+
+        .hero p {
+            font-size: 22px;
+        }
+
+        /* Creators Section */
+        .creators-section {
+            padding: 60px 20px;
+            background: rgba(0, 0, 0, 0.6);
+            margin: 40px auto;
+            max-width: 1200px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        .creators-section h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 6px rgba(255, 255, 255, 0.4);
+        }
+
+        .creators-section h4 {
+            font-size: 20px;
+            color: #e0e0e0;
+            margin-bottom: 40px;
+        }
+
+        .creator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .creator-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .creator-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+        }
+
+        .creator-card h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #00bfff;
+        }
+
+        .creator-card p {
+            font-size: 16px;
+            color: #e0e0e0;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 20px;
+            text-shadow: 1px 1px 4px rgba(255, 255, 255, 0.3);
+            border-top: 1px solid #00bfff;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .creator-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+
+            .creators-section h2 {
+                font-size: 28px;
+            }
+
+            .creators-section h4 {
+                font-size: 18px;
+            }
+
+            .creator-card h3 {
+                font-size: 20px;
+            }
+
+            .creator-card p {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav h1 {
+                font-size: 24px;
+            }
+
+            nav ul {
+                gap: 10px;
+            }
+
+            .hero h2 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            .creators-section {
+                padding: 40px 10px;
+            }
+
+            .creator-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <h1>Web Weavers</h1>
+        <ul>
+            <li>  <a href="http://127.0.0.1:5000">Home</a></li>
+        </ul>
+    </nav>
+
+    <!-- Creators Section -->
+    <section class="creators-section">
+        <h2>Our Team - Web Weavers</h2>
+        <h4>We are Web Weavers, a small group of people weaving their tech future in their way. We are students from IIIT Kalyani pursuing undergraduate degrees in the field of Electronics and Communication.</h4>
+        <div class="creator-grid">
+            <div class="creator-card">
+                <h3>Devansh Shukla</h3>
+                <p>- Lead Developer</p>
+            </div>
+            <div class="creator-card">
+                <h3>Sourav Kar</h3>
+                <p>- UI/UX Designer</p>
+            </div>
+            <div class="creator-card">
+                <h3>Suryanshu Singh</h3>
+                <p>- Web Developer</p>
+            </div>
+            <div class="creator-card">
+                <h3>Mayuresh Sahu</h3>
+                <p>- Bug Fixer</p>
+            </div>
+            <div class="creator-card">
+                <h3>Satya Yadav</h3>
+                <p>- Key Innovator</p>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <p>&copy; 2025 Web Weavers. All rights reserved.</p>
+    </footer>
+</body>
+</html>

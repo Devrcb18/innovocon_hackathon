@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circuit Simulator</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #2C3E50;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            border: 1px solid black;
+
+        }
+        header {
+            background-color: #3a84ce;
+            color: rgb(255, 255, 255);
+            font-style: italic;
+            font-weight: 900;
+            text-align: center;
+            padding: 14px;
+            font-size: 24px;
+            border: 2px solid black;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+        main {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+        .toolbar {
+            width: 250px;
+            background-color: #2C3E50;
+            padding: 10px;
+            box-sizing: border-box;
+            color: white;
+            overflow-y: auto;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+        .toolbar h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        .h2 {
+            font-size: 12px;
+            margin-bottom: 4px;
+            background-color: #2C3E50;
+        }
+        .toolbar button {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: none;
+            background-color: #3498DB;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 20px;
+            border: 2px solid black;
+            box-shadow:  2px 1px 8px 1px  rgb(218, 220, 220);
+        }
+        .toolbar button:hover {
+            background-color: #2980B9;
+          
+        }
+        .workarea {
+            flex: 1;
+            background-color: white;
+            border: 1px solid #e7ecef;
+            position: relative;
+        }
+        .component {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            cursor: grab;
+        }
+        .node {
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            position: absolute;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .node.selected {
+            background-color: green;
+        }
+        .wire {
+            position: absolute;
+            background-color: black;
+            height: 2px;
+            transform-origin: left center;
+        }
+        .calculator {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #34495e;
+            border-radius: 10px;
+        }
+        .calculator h3 {
+            margin-top: 0;
+            color: white;
+        }
+        .calculator input {
+            width: 100%;
+            padding: 5px;
+            margin: 5px 0;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+        }
+        .calculator button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: none;
+            background-color: #3498DB;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 20px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+        .calculator button:hover {
+            background-color: #2980B9;
+        }
+        .simulation-panel {
+            background-color: #3a84ce;
+            color: rgb(255, 255, 255);
+            font-style: italic;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-weight: 900;
+            text-align: center;
+            padding: 1px;
+            font-size: 13px;
+            border: 2px solid black;
+        }
+        
+        .go-back {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #fff;
+            font-style: italic;
+            background-color: #3498DB;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .simulation-panel button {
+            box-shadow: 2px 1px 12px 2px hsl(81, 81%, 65%);
+            width: 10%;
+            padding: 1px;
+            margin: 2px 0;
+            border: none;
+            background-color: #34495e;
+            color: white;
+            cursor: pointer;
+            font-size: 17px;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>Circuit Simulator</header>
+    <main>
+        <aside class="toolbar">
+            <h2>Components</h2>
+            <button onclick="addComponent('resistor', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqXU_wZgEwGi5cspORyLxypi9FW3E78OZKxQ&s')">Resistor</button>
+            <button onclick="addComponent('battery', 'https://icon2.cleanpng.com/20180703/uvl/kisspng-computer-icons-electricity-electric-battery-electr-5b3bb58639b2a5.1626274015306397502363.jpg')">Battery</button>
+            <button onclick="addComponent('capacitor', 'https://icon2.cleanpng.com/20180402/cse/avcy34fwb.webp')">Capacitor</button>
+            <button onclick="addComponent('bulb', 'https://upload.wikimedia.org/wikipedia/commons/b/b2/Lamp_symbol%2C_old.svg')">Bulb</button>
+
+            <div class="calculator">
+                <h3>Ohm's Law Calculator</h3>
+                <input type="number" id="voltage" placeholder="Voltage (V)">
+                <input type="number" id="current" placeholder="Current (I)">
+                <input type="number" id="resistance" placeholder="Resistance (R)">
+                <button onclick="calculateOhmsLaw()">Calculate</button>
+                <p id="result"></p>
+            </div>
+        </aside>
+        <section class="workarea" id="workarea"></section>
+    </main>
+    <footer class="simulation-panel">
+        <h2>Simulation Panel</h2>
+        <button onclick="simulateCircuit()">Simulate</button>
+    </footer>
+    <script>
+        let components = [];
+        let startNode = null;
+
+        function addComponent(type, imgSrc) {
+            let workarea = document.getElementById("workarea");
+            let component = document.createElement("div");
+            component.classList.add("component");
+            component.style.left = "50px";
+            component.style.top = "50px";
+            component.dataset.type = type;
+            component.innerHTML = `<img src="${imgSrc}" width="50" height="50">`;
+            component.onmousedown = dragMouseDown;
+
+            let nodeLeft = createNode();
+            nodeLeft.style.left = "-5px";
+            nodeLeft.style.top = "50%";
+
+            let nodeRight = createNode();
+            nodeRight.style.right = "-5px";
+            nodeRight.style.top = "50%";
+
+            component.appendChild(nodeLeft);
+            component.appendChild(nodeRight);
+            workarea.appendChild(component);
+            components.push(component);
+        }
+
+        function createNode() {
+            let node = document.createElement("div");
+            node.classList.add("node");
+            node.onclick = (event) => handleNodeClick(event, node);
+            return node;
+        }
+
+        function dragMouseDown(event) {
+            event.preventDefault();
+            let component = event.target.closest(".component");
+            let shiftX = event.clientX - component.getBoundingClientRect().left;
+            let shiftY = event.clientY - component.getBoundingClientRect().top;
+
+            function onMouseMove(event) {
+                component.style.left = event.pageX - shiftX + 'px';
+                component.style.top = event.pageY - shiftY + 'px';
+            }
+
+            function onMouseUp() {
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+            }
+
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+        }
+
+        function handleNodeClick(event, node) {
+            event.stopPropagation();
+            if (!startNode) {
+                startNode = node;
+                node.classList.add("selected");
+            } else {
+                if (startNode !== node) {
+                    createWire(startNode, node);
+                }
+                startNode.classList.remove("selected");
+                startNode = null;
+            }
+        }
+
+        function createWire(node1, node2) {
+            let workarea = document.getElementById("workarea");
+            let wire = document.createElement("div");
+            wire.classList.add("wire");
+        
+           
+            let workareaRect = workarea.getBoundingClientRect();
+        
+            
+            let x1 = node1.getBoundingClientRect().left - workareaRect.left + 5;
+            let y1 = node1.getBoundingClientRect().top - workareaRect.top + 5;
+            let x2 = node2.getBoundingClientRect().left - workareaRect.left + 5;
+            let y2 = node2.getBoundingClientRect().top - workareaRect.top + 5;
+        
+            // calculate the length and angle of the wire
+            let length = Math.hypot(x2 - x1, y2 - y1);
+            let angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+        
+            // set the position and rotation of the wire
+            wire.style.left = `${x1}px`;
+            wire.style.top = `${y1}px`;
+            wire.style.width = `${length}px`;
+            wire.style.transform = `rotate(${angle}deg)`;
+        
+            // append the wire to the workarea
+            workarea.appendChild(wire);
+        }
+
+        function simulateCircuit() {
+            let bulb = components.find(comp => comp.dataset.type === "bulb");
+            let battery = components.find(comp => comp.dataset.type === "battery");
+            let resistor = components.find(comp => comp.dataset.type === "resistor");
+
+            if (bulb && battery && resistor) {
+                bulb.querySelector("img").src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsxLIs_cM1l8GgaamLefOe5q6jfO4jB7pd36kvW-hn-l_pV14d2rdioREOzKfAwjfDYmo&usqp=CAU";
+                alert("Circuit Complete: Bulb is Glowing!");
+            } 
+        }
+
+        function calculateOhmsLaw() {
+            let voltage = parseFloat(document.getElementById('voltage').value);
+            let current = parseFloat(document.getElementById('current').value);
+            let resistance = parseFloat(document.getElementById('resistance').value);
+            let result = document.getElementById('result');
+
+            if (!isNaN(voltage) && !isNaN(current) && isNaN(resistance)) {
+                resistance = voltage / current;
+                result.textContent = `Resistance (R): ${resistance.toFixed(2)} Ω`;
+            } else if (!isNaN(voltage) && isNaN(current) && !isNaN(resistance)) {
+                current = voltage / resistance;
+                result.textContent = `Current (I): ${current.toFixed(2)} A`;
+            } else if (isNaN(voltage) && !isNaN(current) && !isNaN(resistance)) {
+                voltage = current * resistance;
+                result.textContent = `Voltage (V): ${voltage.toFixed(2)} V`;
+            } else {
+                result.textContent = "Please provide any two values.";
+            }
+        }
+    </script>
+    <h2>
+    <a href="http://127.0.0.1:5000">Go Back to Home</a>
+</h2>
+</body>
+</html>
