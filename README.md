@@ -19,19 +19,17 @@
 
 ---
 
-## 🛠️ Installation & Usage
+## 🛠️ Tools and concept used
 
-1️⃣ **Clone the Repository:**
-```sh
-   git clone https://github.com/yourusername/voltEDGE.git
-```
+1️⃣**Inline CSS and javaScript.**
 
-2️⃣ **Navigate to the Project Folder:**
-```sh
-   cd voltEDGE
-```
+2️⃣ **flask for backend with listed libraries:**
+      #webview
+      #smtplib
+      #flask
+      
 
-3️⃣ **Open `index.html` in your browser and explore!** 🌐
+3️⃣ **a Simulator with an inline css for styling and java script for functionality!** 🌐
 
 ---
 
